@@ -1,13 +1,13 @@
 const randomNumber = (min, max) => {
   const rand = min - 0.5 + Math.random() * (max - min + 1);
   return Math.round(rand);
-}
+};
 
-alert( randomNumber(0, 3));
+randomNumber(0, 3);
 
-const randomFloatNumber = (min, max, randomFloatNumber) => {
+const randomFloatNumber = (min, max, quantityNumber) => {
   const randomPoint = Math.random() * (max - min) + min;
-  return randomPoint.toFixed(randomFloatNumber);
-}
+  return randomPoint.toFixed(quantityNumber);
+};
 
-alert( randomFloatNumber(0, 3, 2));
+randomFloatNumber(0, 3, 2);
