@@ -96,9 +96,9 @@ const AvatarRange = {
 };
 
 
-const getArrayRandElement = (arr) => {
-  const rand = Math.floor(Math.random() * arr.length);
-  return arr[rand];
+const getArrayRandElement = (array) => {
+  const rand = Math.floor(Math.random() * array.length);
+  return array[rand];
 };
 
 const getRandomArrayLength = (array) => {
@@ -111,19 +111,27 @@ const getRandomArrayLength = (array) => {
 };
 
 
-const getAdress = () => ({
+const getAuthor = () => {
+  const randomNum = getRandomNumber(AvatarRange.MIN, AvatarRange.MAX);
+  return ({
+    avatar: `img/avatars/user${randomNum === 10 ? '10': `0${randomNum}`}.png`,
+  });
+};
+
+
+const getAddress = () => ({
   lat: getRandomFloatNumber(latLocation.MIN, latLocation.MAX, 5),
   lng: getRandomFloatNumber(lngLocation.MIN, lngLocation.MAX, 5),
 });
 
-const getAuthor = () => ({
-  avatar: `img/avatars/user0${getRandomFloatNumber(AvatarRange.MIN, AvatarRange.MAX)}.png`,
-});
+
+const getAddresslat = getRandomFloatNumber(latLocation.MIN, latLocation.MAX, 5);
+const getAddresslng = getRandomFloatNumber(lngLocation.MIN, lngLocation.MAX, 5);
 
 
 const getCardGenerate = () => ({
   title: getArrayRandElement(TITLE),
-  address: Object.values(getAdress()),
+  address: `${getAddresslat} ${getAddresslng}`,
   price: getRandomNumber(PriceRange.MIN, PriceRange.MAX),
   type: getArrayRandElement(TYPE),
   rooms: getRandomNumber(RoomsRange.MIN, RoomsRange.MAX),
@@ -138,7 +146,7 @@ const getCardGenerate = () => ({
 const getFiniteCard = () => ({
   avatar: getAuthor(),
   offer: getCardGenerate(),
-  location: getAdress(),
+  location: getAddress(),
 });
 
 const createCard = () =>  new Array(10).fill(null).map(getFiniteCard);
