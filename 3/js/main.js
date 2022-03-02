@@ -1,4 +1,4 @@
-const randomNumber = (min, max) => {
+const getRandomNumber = (min, max) => {
   const rand = min - 0.5 + Math.random() * (max - min + 1);
   if (min >= max) {
     return new Error('неверный числовой диапазон');
@@ -7,7 +7,7 @@ const randomNumber = (min, max) => {
 };
 
 
-const randomFloatNumber = (min, max, quantityNumber) => {
+const getRandomFloatNumber = (min, max, quantityNumber) => {
   const randomPoint = Math.random() * (max - min) + min;
   if (min >= max) {
     return new Error('неверный числовой диапазон');
@@ -96,51 +96,59 @@ const AvatarRange = {
 };
 
 
-const arrayRandElement = (arr) => {
-  const rand = Math.floor(Math.random() * arr.length);
-  return arr[rand];
+const getArrayRandElement = (array) => {
+  const rand = Math.floor(Math.random() * array.length);
+  return array[rand];
 };
 
-const randonArrayLength = (array) => {
+const getRandomArrayLength = (array) => {
   const newArray = [];
 
-  for (let i = 0; i < randomNumber(1, array.length); i++) {
+  for (let i = 0; i < getRandomNumber(1, array.length); i++) {
     newArray.push(array[i]);
   }
   return newArray;
 };
 
 
-const getAdress = () => ({
-  lat: randomFloatNumber(latLocation.MIN, latLocation.MAX, 5),
-  lng: randomFloatNumber(lngLocation.MIN, lngLocation.MAX, 5),
+const getAuthor = () => {
+  const randomNum = getRandomNumber(AvatarRange.MIN, AvatarRange.MAX);
+  return ({
+    avatar: `img/avatars/user${randomNum === 10 ? '10': `0${randomNum}`}.png`,
+  });
+};
+
+
+const getAddress = () => ({
+  lat: getRandomFloatNumber(latLocation.MIN, latLocation.MAX, 5),
+  lng: getRandomFloatNumber(lngLocation.MIN, lngLocation.MAX, 5),
 });
 
-const getAuthor = () => ({
-  avatar: `img/avatars/user0${randomFloatNumber(AvatarRange.MIN, AvatarRange.MAX)}.png`,
+
+const getAddresslat = getRandomFloatNumber(latLocation.MIN, latLocation.MAX, 5);
+const getAddresslng = getRandomFloatNumber(lngLocation.MIN, lngLocation.MAX, 5);
+
+
+const getCardGenerate = () => ({
+  title: getArrayRandElement(TITLE),
+  address: `${getAddresslat} ${getAddresslng}`,
+  price: getRandomNumber(PriceRange.MIN, PriceRange.MAX),
+  type: getArrayRandElement(TYPE),
+  rooms: getRandomNumber(RoomsRange.MIN, RoomsRange.MAX),
+  guests: getRandomNumber(GuestsRange.MIN, GuestsRange.MAX),
+  checking: getArrayRandElement(CHECKING),
+  checkout: getArrayRandElement(CHECKOUT),
+  features: getRandomArrayLength(FEATURES),
+  description: getArrayRandElement(DESCRIPTION),
+  photos: getRandomArrayLength(PHOTOS),
 });
 
-
-const cardGenerate = () => ({
-  title: arrayRandElement(TITLE),
-  address: Object.values(getAdress()),
-  price: randomNumber(PriceRange.MIN, PriceRange.MAX),
-  type: arrayRandElement(TYPE),
-  rooms: randomNumber(RoomsRange.MIN, RoomsRange.MAX),
-  guests: randomNumber(GuestsRange.MIN, GuestsRange.MAX),
-  checking: arrayRandElement(CHECKING),
-  checkout: arrayRandElement(CHECKOUT),
-  features: randonArrayLength(FEATURES),
-  description: arrayRandElement(DESCRIPTION),
-  photos: randonArrayLength(PHOTOS),
-});
-
-const finiteCard = () => ({
+const getFiniteCard = () => ({
   avatar: getAuthor(),
-  offer: cardGenerate(),
-  location: getAdress(),
+  offer: getCardGenerate(),
+  location: getAddress(),
 });
 
-const createCard = () =>  new Array(10).fill(null).map(finiteCard);
+const createCard = () =>  new Array(10).fill(null).map(getFiniteCard);
 
 createCard();
