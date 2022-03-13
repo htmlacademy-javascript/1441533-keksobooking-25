@@ -36,4 +36,4 @@ const getCardGenerate = () => {
 
 const createCard = () =>  new Array(10).fill(null).map(getCardGenerate);
 
-createCard();
+export {createCard};
