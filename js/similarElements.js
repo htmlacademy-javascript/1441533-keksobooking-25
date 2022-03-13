@@ -1,5 +1,3 @@
-import {createCard} from './cardGenerate.js';
-
 const card = document.querySelector('#card').content.querySelector('.popup');
 const mapCanvas = document.querySelector('#map-canvas');
 
@@ -11,17 +9,25 @@ const HOUSE_TYPE = {
   hotel: 'Отель',
 };
 
-const analogousCard = createCard();
-
-const createCardsFragment = document.createDocumentFragment();
-
 const generateCard = ({author, offer}) => {
   const cardComponent = card.cloneNode(true);
 
-  cardComponent.querySelector('.popup__title').textContent = offer.title;
-  cardComponent.querySelector('.popup__text--address').textContent = offer.address;
-  cardComponent.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  cardComponent.querySelector('.popup__type').textContent = HOUSE_TYPE[offer.type];
+  const cardTitle = cardComponent.querySelector('.popup__title').textContent = offer.title;
+  if(!offer.title) {
+    cardTitle.classList.add('hidden');
+  }
+  const cardaddress = cardComponent.querySelector('.popup__text--address').textContent = offer.address;
+  if(!offer.address) {
+    cardaddress.classList.add('hidden');
+  }
+  const cardPrice = cardComponent.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
+  if(!offer.price) {
+    cardPrice.classList.add('hidden');
+  }
+  const cardType = cardComponent.querySelector('.popup__type').textContent = HOUSE_TYPE[offer.type];
+  if(!offer.type) {
+    cardType.classList.add('hidden');
+  }
   cardComponent.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   cardComponent.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checking}, выезд до ${offer.checkout}`;
   cardComponent.querySelector('.popup__description').textContent = offer.description;
@@ -53,10 +59,10 @@ const generateCard = ({author, offer}) => {
     photoList.insertAdjacentHTML('afterbegin', photosElement);
   }
 
+  mapCanvas.appendChild(cardComponent);
 
   return cardComponent;
 };
 
-const generateCards = analogousCard.map(generateCard);
-createCardsFragment.appendChild(generateCards[0]);
-mapCanvas.appendChild(createCardsFragment);
+
+export {generateCard};
