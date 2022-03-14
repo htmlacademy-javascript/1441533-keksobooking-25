@@ -13,24 +13,27 @@ const generateCard = ({author, offer}) => {
   const cardComponent = card.cloneNode(true);
 
   const cardTitle = cardComponent.querySelector('.popup__title').textContent = offer.title;
-  if(!offer.title) {
+  if(!offer.title.length) {
     cardTitle.classList.add('hidden');
   }
-  const cardaddress = cardComponent.querySelector('.popup__text--address').textContent = offer.address;
-  if(!offer.address) {
-    cardaddress.classList.add('hidden');
+  const cardAddress = cardComponent.querySelector('.popup__text--address').textContent = offer.address;
+  if(!offer.address.length) {
+    cardAddress.classList.add('hidden');
   }
-  const cardPrice = cardComponent.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  if(!offer.price) {
-    cardPrice.classList.add('hidden');
-  }
+  cardComponent.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
+
   const cardType = cardComponent.querySelector('.popup__type').textContent = HOUSE_TYPE[offer.type];
-  if(!offer.type) {
+  if(!offer.type.length) {
     cardType.classList.add('hidden');
   }
   cardComponent.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+
   cardComponent.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checking}, выезд до ${offer.checkout}`;
-  cardComponent.querySelector('.popup__description').textContent = offer.description;
+
+  const cardDescription = cardComponent.querySelector('.popup__description').textContent = offer.description;
+  if(!offer.description.length) {
+    cardDescription.classList.add('hidden');
+  }
   cardComponent.querySelector('.popup__avatar');
   cardComponent.querySelector('img').src = author.avatar;
 
