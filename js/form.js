@@ -14,7 +14,6 @@ const inactiveForm = () => {
   }
 };
 
-inactiveForm();
 
 const activateForm = () => {
   adForm.classList.remove('ad-form--disabled');
@@ -27,6 +26,7 @@ const activateForm = () => {
   }
 };
 
-activateForm();
+
+export {inactiveForm, activateForm};
 
 

@@ -44,22 +44,22 @@ const generateCard = ({author, offer}) => {
 
   featuresList.innerHTML = '';
   for (let i = 0; i < offer.features.length; i++) {
-    if(!offer.features.length) {
-      featuresList.classList.add('hidden');
-    }
     const features = offer.features[i];
     const featureElement = `<li class="popup__feature popup__feature--${features}"></li>`;
     featuresList.insertAdjacentHTML('afterbegin', featureElement);
+    if(!offer.features) {
+      featuresList.classList.add('hidden');
+    }
   }
 
   photoList.innerHTML = '';
   for (let i = 0; i < offer.photos.length; i++) {
-    if(!offer.photos.length) {
-      photoList.classList.add('hidden');
-    }
     const photos = offer.photos[i];
     const photosElement = `<img src="${photos}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
     photoList.insertAdjacentHTML('afterbegin', photosElement);
+    if(!offer.photos.length) {
+      photoList.classList.add('hidden');
+    }
   }
 
   mapCanvas.appendChild(cardComponent);
