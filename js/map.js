@@ -44,25 +44,6 @@ const loadingBluePin = (element) => {
   });
 };
 
-const map = L.map('map-canvas')  .on('load', () => {
-  activateForm();
-  setAddress();
-})
-  .setView({
-    lat: Coordinates.lat,
-    lng: Coordinates.lng,
-  }, 12);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
-
-loadingBluePin(map);
-setAddress(Coordinates.lat, Coordinates.lng);
-
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
   iconSize: [50, 50],
@@ -81,12 +62,33 @@ const mainPinMarker = L.marker(
   },
 );
 
+const mainPinAddress = () => {
+  setAddress(mainPinMarker.getLatLng().lat.toFixed(5), mainPinMarker.getLatLng().lng.toFixed(5));
+};
+
+const map = L.map('map-canvas');
+map.on('load', () => {
+  activateForm();
+  loadingBluePin(map);
+  mainPinAddress();
+})
+  .setView({
+    lat: Coordinates.lat,
+    lng: Coordinates.lng,
+  }, 12);
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
+
 
 mainPinMarker.addTo(map);
 
-
-mainPinMarker.on('move', (evt) => {
-  setAddress(evt.target.getLatLng().lat.toFixed(5), evt.target.getLatLng().lng.toFixed(5));
+mainPinMarker.on('move', () => {
+  mainPinAddress();
 });
 
 
