@@ -14,6 +14,7 @@ const PRICE_HOUSING = {
   palace: 10000,
 };
 
+
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
@@ -29,11 +30,16 @@ const selectChangeExit = () => {
   departureTime.value = checkInTime.value;
 };
 
+const getPriceValidation = () => price.value >= PRICE_HOUSING[type.value];
+
 const selectChangeType = () => {
   price.placeholder = PRICE_HOUSING[type.value];
   price.min = PRICE_HOUSING[type.value];
 };
 
+const getErrorPrice = () => `минимальная стоимость ${PRICE_HOUSING[type.value]}`;
+
+pristine.addValidator(price, getPriceValidation, getErrorPrice);
 pristine.addValidator(type, selectChangeType);
 pristine.addValidator(departureTime, selectChangeArrive);
 pristine.addValidator(checkInTime, selectChangeExit);

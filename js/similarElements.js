@@ -1,5 +1,5 @@
 const card = document.querySelector('#card').content.querySelector('.popup');
-const mapCanvas = document.querySelector('#map-canvas');
+
 
 const HOUSE_TYPE = {
   flat: 'Квартира',
@@ -62,7 +62,6 @@ const generateCard = ({author, offer}) => {
     }
   }
 
-  mapCanvas.appendChild(cardComponent);
 
   return cardComponent;
 };
