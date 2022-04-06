@@ -1,9 +1,7 @@
 import {activateForm } from './form.js';
-import {createCard} from './cardGenerate.js';
 import {generateCard} from './similarElements.js';
 
 const address = document.querySelector('#address');
-const resetButton = document.querySelector('.ad-form__reset');
 
 
 const setAddress = (x, y) => {
@@ -16,33 +14,6 @@ const Coordinates = {
   lng: 139.69171,
 };
 
-const loadingBluePin = (element) => {
-  if(!element){
-    return;
-  }
-  const points = createCard();
-  const icon = L.icon({
-    iconUrl: './img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [26, 52],
-  });
-
-
-  points.forEach((card) => {
-    const marker = L.marker({
-      lat: card.location.lat,
-      lng: card.location.lng
-    },
-    {
-      icon
-    }
-    );
-
-    marker
-      .addTo(element)
-      .bindPopup(generateCard(card));
-  });
-};
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -69,7 +40,6 @@ const mainPinAddress = () => {
 const map = L.map('map-canvas');
 map.on('load', () => {
   activateForm();
-  loadingBluePin(map);
   mainPinAddress();
 })
   .setView({
@@ -84,6 +54,33 @@ L.tileLayer(
   },
 ).addTo(map);
 
+const loadingBluePin = (element) => {
+  if(!element){
+    return;
+  }
+  const icon = L.icon({
+    iconUrl: './img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [26, 52],
+  });
+
+
+  element.forEach((card) => {
+    const marker = L.marker({
+      lat: card.location.lat,
+      lng: card.location.lng
+    },
+    {
+      icon
+    }
+    );
+
+    marker
+      .addTo(map)
+      .bindPopup(generateCard(card));
+  });
+};
+
 
 mainPinMarker.addTo(map);
 
@@ -92,7 +89,7 @@ mainPinMarker.on('move', () => {
 });
 
 
-resetButton.addEventListener('click', () => {
+const resetMap = () => {
   mainPinMarker.setLatLng({
     lat: Coordinates.lat,
     lng: Coordinates.lng,
@@ -103,4 +100,9 @@ resetButton.addEventListener('click', () => {
     lat: Coordinates.lat,
     lng: Coordinates.lng,
   }, 12);
-});
+
+  mainPinAddress();
+};
+
+
+export {loadingBluePin, resetMap};

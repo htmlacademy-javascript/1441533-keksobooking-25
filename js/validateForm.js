@@ -59,8 +59,3 @@ const getOptionErrorMessage = () => `${rooms.value === '100' ? '100 комнат
 
 pristine.addValidator(copacity, validateRoomsCopacity, getOptionErrorMessage);
 
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
-
