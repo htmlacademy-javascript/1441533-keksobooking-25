@@ -1,3 +1,7 @@
+import {messageAboutSending, errorMessage} from './message.js';
+import {sendData} from './api.js';
+import { resetFormMap } from './main.js';
+
 const form = document.querySelector('.ad-form');
 const rooms = document.querySelector('#room_number');
 const copacity = document.querySelector('#capacity');
@@ -5,6 +9,7 @@ const price = form.querySelector('#price');
 const type = form.querySelector('#type');
 const checkInTime = form.querySelector('#timein');
 const departureTime = form.querySelector('#timeout');
+const buttonReset = document.querySelector('.ad-form__reset');
 
 const PRICE_HOUSING = {
   bungalow: 0,
@@ -58,4 +63,34 @@ const getOptionErrorMessage = () => `${rooms.value === '100' ? '100 комнат
 
 
 pristine.addValidator(copacity, validateRoomsCopacity, getOptionErrorMessage);
+
+const resetForm = () => {
+  form.reset();
+};
+
+const resetAllForm = () => {
+  resetForm();
+  resetFormMap();
+};
+
+buttonReset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetAllForm();
+});
+
+
+const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    pristine.validate();
+
+    sendData(
+      () => onSuccess(messageAboutSending()),
+      () => errorMessage(),
+      new FormData(evt.target),
+    );
+  });
+};
+
+setUserFormSubmit(resetAllForm);
 
