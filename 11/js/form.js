@@ -1,13 +1,12 @@
-import {messageAboutSending, errorMessage} from './message.js';
-import {sendData} from './api.js';
-import { resetFormMap } from './main.js';
+// import {messageAboutSending, errorMessage} from './message.js';
+// import {sendData} from './api.js';
+// import { resetFormMap } from './main.js';
 
 
 const adForm = document.querySelector('.ad-form');
 const fieldsets = adForm.children;
 const mapFilters = document.querySelector('.map__filters');
 const selects = mapFilters.children;
-const buttonReset = document.querySelector('.ad-form__reset');
 
 const inactiveForm = () => {
   adForm.classList.add('ad-form--disabled');
@@ -32,33 +31,34 @@ const activateForm = () => {
   }
 };
 
-const resetForm = () => {
-  adForm.reset();
-};
 
-const resetAllForm = () => {
-  resetForm();
-  resetFormMap();
-};
+// const resetForm = () => {
+//   adForm.reset();
+// };
 
-buttonReset.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  resetAllForm();
-});
+// const resetAllForm = () => {
+//   resetForm();
+//   resetFormMap();
+// };
 
-const setUserFormSubmit = (onSuccess) => {
-  adForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
+// buttonReset.addEventListener('click', (evt) => {
+//   evt.preventDefault();
+//   resetAllForm();
+// });
 
-    sendData(
-      () => onSuccess(messageAboutSending()),
-      () => errorMessage(),
-      new FormData(evt.target),
-    );
-  });
-};
+// const setUserFormSubmit = (onSuccess) => {
+//   adForm.addEventListener('submit', (evt) => {
+//     evt.preventDefault();
 
-setUserFormSubmit(resetAllForm);
+//     sendData(
+//       () => onSuccess(messageAboutSending()),
+//       () => errorMessage(),
+//       new FormData(evt.target),
+//     );
+//   });
+// };
+
+// setUserFormSubmit(resetAllForm);
 
 
 export {inactiveForm, activateForm};
