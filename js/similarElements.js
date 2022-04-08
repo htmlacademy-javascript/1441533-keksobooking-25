@@ -28,7 +28,7 @@ const generateCard = ({author, offer}) => {
   }
   cardComponent.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
 
-  cardComponent.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checking}, выезд до ${offer.checkout}`;
+  cardComponent.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
   cardComponent.querySelector('.popup__description').textContent = offer.description;
   cardComponent.querySelector('.popup__avatar');
