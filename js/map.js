@@ -1,6 +1,7 @@
 import {activateForm } from './form.js';
 import {generateCard} from './similarElements.js';
 
+
 const address = document.querySelector('#address');
 
 

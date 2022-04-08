@@ -3,13 +3,13 @@ import {sendData} from './api.js';
 import { resetFormMap } from './main.js';
 
 const form = document.querySelector('.ad-form');
-const rooms = document.querySelector('#room_number');
-const copacity = document.querySelector('#capacity');
+const rooms = form.querySelector('#room_number');
+const copacity = form.querySelector('#capacity');
 const price = form.querySelector('#price');
 const type = form.querySelector('#type');
 const checkInTime = form.querySelector('#timein');
 const departureTime = form.querySelector('#timeout');
-const buttonReset = document.querySelector('.ad-form__reset');
+const buttonReset = form.querySelector('.ad-form__reset');
 
 const PRICE_HOUSING = {
   bungalow: 0,
@@ -82,13 +82,20 @@ buttonReset.addEventListener('click', (evt) => {
 const setUserFormSubmit = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    pristine.validate();
 
-    sendData(
-      () => onSuccess(messageAboutSending()),
-      () => errorMessage(),
-      new FormData(evt.target),
-    );
+    const isValid = pristine.validate();
+    if (isValid) {
+      sendData(
+        () => {
+          onSuccess();
+          messageAboutSending();
+        },
+        () => {
+          errorMessage();
+        },
+        new FormData(evt.target),
+      );
+    }
   });
 };
 
