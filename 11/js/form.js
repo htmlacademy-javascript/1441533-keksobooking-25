@@ -1,8 +1,3 @@
-// import {messageAboutSending, errorMessage} from './message.js';
-// import {sendData} from './api.js';
-// import { resetFormMap } from './main.js';
-
-
 const adForm = document.querySelector('.ad-form');
 const fieldsets = adForm.children;
 const mapFilters = document.querySelector('.map__filters');
@@ -19,6 +14,8 @@ const inactiveForm = () => {
   }
 };
 
+inactiveForm();
+
 
 const activateForm = () => {
   adForm.classList.remove('ad-form--disabled');
@@ -30,35 +27,6 @@ const activateForm = () => {
     selects[select].disabled = false;
   }
 };
-
-
-// const resetForm = () => {
-//   adForm.reset();
-// };
-
-// const resetAllForm = () => {
-//   resetForm();
-//   resetFormMap();
-// };
-
-// buttonReset.addEventListener('click', (evt) => {
-//   evt.preventDefault();
-//   resetAllForm();
-// });
-
-// const setUserFormSubmit = (onSuccess) => {
-//   adForm.addEventListener('submit', (evt) => {
-//     evt.preventDefault();
-
-//     sendData(
-//       () => onSuccess(messageAboutSending()),
-//       () => errorMessage(),
-//       new FormData(evt.target),
-//     );
-//   });
-// };
-
-// setUserFormSubmit(resetAllForm);
 
 
 export {inactiveForm, activateForm};

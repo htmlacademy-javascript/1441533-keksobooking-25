@@ -1,7 +1,6 @@
 const main = document.querySelector('main');
 const error = document.querySelector('#error').content;
 const contentError = error.querySelector('.error');
-const closeError = contentError.querySelector('.error__button');
 const success = document.querySelector('#success').content;
 const contentSuccess = success.querySelector('.success');
 
@@ -30,17 +29,16 @@ const closeSuccessMessage = () => {
 };
 
 
-document.addEventListener('keydown', (evt) => {
+const buttonErrorHandler = () => closeErrorMessage();
+
+const buttonSuccessHandler = (evt) => {
   if ((evt.key === 'Escape' || evt.key === 'Esc')) {
-    closeErrorMessage();
     closeSuccessMessage();
   }
-});
+};
 
-
-closeError.addEventListener('click', () => {
-  closeErrorMessage();
-});
+main.addEventListener('keydown', buttonErrorHandler);
+main.addEventListener('keydown', buttonSuccessHandler);
 
 
 main.addEventListener('click', closeErrorMessage);
