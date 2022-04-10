@@ -28,12 +28,9 @@ const generateCard = ({author, offer}) => {
   }
   cardComponent.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
 
-  cardComponent.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checking}, выезд до ${offer.checkout}`;
+  cardComponent.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
-  const cardDescription = cardComponent.querySelector('.popup__description').textContent = offer.description;
-  if(!offer.description.length) {
-    cardDescription.classList.add('hidden');
-  }
+  cardComponent.querySelector('.popup__description').textContent = offer.description;
   cardComponent.querySelector('.popup__avatar');
   cardComponent.querySelector('img').src = author.avatar;
 
@@ -43,13 +40,14 @@ const generateCard = ({author, offer}) => {
 
 
   featuresList.innerHTML = '';
-  for (let i = 0; i < offer.features.length; i++) {
-    const features = offer.features[i];
-    const featureElement = `<li class="popup__feature popup__feature--${features}"></li>`;
-    featuresList.insertAdjacentHTML('afterbegin', featureElement);
-    if(!offer.features) {
-      featuresList.classList.add('hidden');
+  if (offer.features) {
+    for (let i = 0; i < offer.features.length; i++) {
+      const features = offer.features[i];
+      const featureElement = `<li class="popup__feature popup__feature--${features}"></li>`;
+      featuresList.insertAdjacentHTML('afterbegin', featureElement);
     }
+  } else {
+    featuresList.remove();
   }
 
   photoList.innerHTML = '';

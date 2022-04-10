@@ -1,9 +1,10 @@
 import {activateForm } from './form.js';
-import {createCard} from './cardGenerate.js';
 import {generateCard} from './similarElements.js';
+import {getData} from './api.js';
+import {showAlertError} from './util.js';
+
 
 const address = document.querySelector('#address');
-const resetButton = document.querySelector('.ad-form__reset');
 
 
 const setAddress = (x, y) => {
@@ -16,33 +17,6 @@ const Coordinates = {
   lng: 139.69171,
 };
 
-const loadingBluePin = (element) => {
-  if(!element){
-    return;
-  }
-  const points = createCard();
-  const icon = L.icon({
-    iconUrl: './img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [26, 52],
-  });
-
-
-  points.forEach((card) => {
-    const marker = L.marker({
-      lat: card.location.lat,
-      lng: card.location.lng
-    },
-    {
-      icon
-    }
-    );
-
-    marker
-      .addTo(element)
-      .bindPopup(generateCard(card));
-  });
-};
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -62,14 +36,44 @@ const mainPinMarker = L.marker(
   },
 );
 
+const loadingBluePin = (element, mapLoad) => {
+  if(!element){
+    return;
+  }
+  const icon = L.icon({
+    iconUrl: './img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [26, 52],
+  });
+
+
+  element.forEach((card) => {
+    const marker = L.marker({
+      lat: card.location.lat,
+      lng: card.location.lng
+    },
+    {
+      icon
+    }
+    );
+
+    marker
+      .addTo(mapLoad)
+      .bindPopup(generateCard(card));
+  });
+};
+
 const mainPinAddress = () => {
   setAddress(mainPinMarker.getLatLng().lat.toFixed(5), mainPinMarker.getLatLng().lng.toFixed(5));
 };
+const OFFER_COUNT = 10;
 
 const map = L.map('map-canvas');
 map.on('load', () => {
+  getData((offers) => {
+    loadingBluePin(offers.slice(0, OFFER_COUNT), map);
+  }, showAlertError);
   activateForm();
-  loadingBluePin(map);
   mainPinAddress();
 })
   .setView({
@@ -92,7 +96,7 @@ mainPinMarker.on('move', () => {
 });
 
 
-resetButton.addEventListener('click', () => {
+const resetMap = () => {
   mainPinMarker.setLatLng({
     lat: Coordinates.lat,
     lng: Coordinates.lng,
@@ -103,4 +107,9 @@ resetButton.addEventListener('click', () => {
     lat: Coordinates.lat,
     lng: Coordinates.lng,
   }, 12);
-});
+
+  mainPinAddress();
+};
+
+
+export {loadingBluePin, resetMap};
