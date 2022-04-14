@@ -1,6 +1,7 @@
 import {messageAboutSending, errorMessage} from './message.js';
 import {sendData} from './api.js';
 import { resetFormMap } from './main.js';
+import {avatar, photos} from './photos.js';
 
 const form = document.querySelector('.ad-form');
 const rooms = form.querySelector('#room_number');
@@ -10,6 +11,7 @@ const type = form.querySelector('#type');
 const checkInTime = form.querySelector('#timein');
 const departureTime = form.querySelector('#timeout');
 const buttonReset = form.querySelector('.ad-form__reset');
+
 
 const PRICE_HOUSING = {
   bungalow: 0,
@@ -68,9 +70,16 @@ const resetForm = () => {
   form.reset();
 };
 
+
+const resetPhotos = () => {
+  avatar.src = 'img/muffin-grey.svg';
+  photos.innerHTML = '';
+};
+
 const resetAllForm = () => {
   resetForm();
   resetFormMap();
+  resetPhotos();
 };
 
 buttonReset.addEventListener('click', (evt) => {
@@ -87,8 +96,8 @@ const setUserFormSubmit = (onSuccess) => {
     if (isValid) {
       sendData(
         () => {
-          onSuccess();
           messageAboutSending();
+          onSuccess();
         },
         () => {
           errorMessage();
