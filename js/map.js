@@ -1,7 +1,9 @@
 import {activateForm } from './form.js';
 import {generateCard} from './similarElements.js';
 import {getData} from './api.js';
-import {showAlertError} from './util.js';
+import { setFiltersChange, activateFilter, filteringFilters} from './filters.js';
+import {debounce} from './util.js';
+import { showAlertError } from './util.js';
 
 
 const address = document.querySelector('#address');
@@ -36,44 +38,58 @@ const mainPinMarker = L.marker(
   },
 );
 
-const loadingBluePin = (element, mapLoad) => {
-  if(!element){
-    return;
-  }
-  const icon = L.icon({
-    iconUrl: './img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [26, 52],
-  });
+const icon = L.icon({
+  iconUrl: './img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [26, 52],
+});
 
+const OFFER_LIMITED = 10;
 
-  element.forEach((card) => {
-    const marker = L.marker({
-      lat: card.location.lat,
-      lng: card.location.lng
-    },
-    {
-      icon
-    }
-    );
-
-    marker
-      .addTo(mapLoad)
-      .bindPopup(generateCard(card));
-  });
-};
 
 const mainPinAddress = () => {
   setAddress(mainPinMarker.getLatLng().lat.toFixed(5), mainPinMarker.getLatLng().lng.toFixed(5));
 };
-const OFFER_COUNT = 10;
+const RERENDER_DELAY = 500;
+
 
 const map = L.map('map-canvas');
 map.on('load', () => {
+  let pinsOffers = [];
+  const removeMarkers = () => {
+    pinsOffers.forEach((pin) => map.removeLayer(pin));
+    pinsOffers = [];
+  };
+
+  const loadingBluePin = (element) => {
+    if(!element){
+      return;
+    }
+
+    element
+      .slice(0, OFFER_LIMITED)
+      .forEach((card) => {
+        const marker = L.marker({
+          lat: card.location.lat,
+          lng: card.location.lng
+        },
+        {
+          icon
+        }
+        );
+
+        marker
+          .addTo(map)
+          .bindPopup(generateCard(card));
+        pinsOffers.push(marker);
+      });
+  };
   getData((offers) => {
-    loadingBluePin(offers.slice(0, OFFER_COUNT), map);
+    activateForm();
+    activateFilter();
+    loadingBluePin(offers);
+    setFiltersChange(debounce( () => {removeMarkers(offers); loadingBluePin(offers.filter(filteringFilters));}, RERENDER_DELAY));
   }, showAlertError);
-  activateForm();
   mainPinAddress();
 })
   .setView({
@@ -112,4 +128,4 @@ const resetMap = () => {
 };
 
 
-export {loadingBluePin, resetMap};
+export {resetMap};

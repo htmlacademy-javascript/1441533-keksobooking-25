@@ -51,13 +51,14 @@ const generateCard = ({author, offer}) => {
   }
 
   photoList.innerHTML = '';
-  for (let i = 0; i < offer.photos.length; i++) {
-    const photos = offer.photos[i];
-    const photosElement = `<img src="${photos}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
-    photoList.insertAdjacentHTML('afterbegin', photosElement);
-    if(!offer.photos.length) {
-      photoList.classList.add('hidden');
+  if (offer.photos)  {
+    for (let i = 0; i < offer.photos.length; i++) {
+      const photos = offer.photos[i];
+      const photosElement = `<img src="${photos}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
+      photoList.insertAdjacentHTML('afterbegin', photosElement);
     }
+  } else {
+    photoList.remove();
   }
 
 
