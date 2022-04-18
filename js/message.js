@@ -5,12 +5,12 @@ const success = document.querySelector('#success').content;
 const contentSuccess = success.querySelector('.success');
 
 
-const errorMessage = () => {
+const showErrorMessage = () => {
   main.appendChild(contentError);
 };
 
 
-const messageAboutSending = () => {
+const showMessageAboutSending = () => {
   main.appendChild(contentSuccess);
 };
 
@@ -45,4 +45,4 @@ main.addEventListener('click', closeErrorMessage);
 main.addEventListener('click', closeSuccessMessage);
 
 
-export {errorMessage, messageAboutSending};
+export {showErrorMessage, showMessageAboutSending};

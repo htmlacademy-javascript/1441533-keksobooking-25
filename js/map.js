@@ -1,22 +1,22 @@
 import {activateForm } from './form.js';
-import {generateCard} from './similarElements.js';
+import {generateCard} from './similar-elements.js';
 import {getData} from './api.js';
-import { setFiltersChange, activateFilter, filteringFilters} from './filters.js';
+import { setFiltersChange, activateFilter, filteringFilters, resetButtonsFilters} from './filters.js';
 import {debounce} from './util.js';
 import { showAlertError } from './util.js';
 
 
 const address = document.querySelector('#address');
 
-
-const setAddress = (x, y) => {
-  address.value = `${x}, ${y}`;
-};
-
-
 const Coordinates = {
   lat: 35.68951,
   lng: 139.69171,
+};
+const OFFER_LIMITED = 10;
+const RERENDER_DELAY = 500;
+
+const setAddress = (x, y) => {
+  address.value = `${x}, ${y}`;
 };
 
 
@@ -44,13 +44,10 @@ const icon = L.icon({
   iconAnchor: [26, 52],
 });
 
-const OFFER_LIMITED = 10;
 
-
-const mainPinAddress = () => {
+const setMainPinAddress = () => {
   setAddress(mainPinMarker.getLatLng().lat.toFixed(5), mainPinMarker.getLatLng().lng.toFixed(5));
 };
-const RERENDER_DELAY = 500;
 
 
 const map = L.map('map-canvas');
@@ -89,8 +86,9 @@ map.on('load', () => {
     activateFilter();
     loadingBluePin(offers);
     setFiltersChange(debounce( () => {removeMarkers(offers); loadingBluePin(offers.filter(filteringFilters));}, RERENDER_DELAY));
+    resetButtonsFilters(() => loadingBluePin(offers, removeMarkers(offers)));
   }, showAlertError);
-  mainPinAddress();
+  setMainPinAddress();
 })
   .setView({
     lat: Coordinates.lat,
@@ -108,7 +106,7 @@ L.tileLayer(
 mainPinMarker.addTo(map);
 
 mainPinMarker.on('move', () => {
-  mainPinAddress();
+  setMainPinAddress();
 });
 
 
@@ -124,7 +122,7 @@ const resetMap = () => {
     lng: Coordinates.lng,
   }, 12);
 
-  mainPinAddress();
+  setMainPinAddress();
 };
 
 

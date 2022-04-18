@@ -1,3 +1,5 @@
+import {buttonReset} from './form.js';
+
 const filterForm = document.querySelector('.map__filters');
 const selectsFilter = filterForm.querySelectorAll('select');
 const filterFormFeatures = filterForm.querySelector('#housing-features');
@@ -10,6 +12,10 @@ const filtersFormGuests = filterForm.querySelector('#housing-guests');
 const PriceMoney = {
   MAX: 50000,
   MIN: 10000,
+};
+
+const resetFilters = () => {
+  filterForm.reset();
 };
 
 
@@ -44,6 +50,12 @@ const setFiltersChange = (cb) => {
   filterForm.addEventListener('change', cb);
 };
 
+
+const resetButtonsFilters = (cb) => {
+  buttonReset.addEventListener('click', cb);
+};
+
+
 const inactivateFilter = () => {
   filterForm.classList.add('map__filters--disabled');
   filterFormFeatures.disabled = true;
@@ -63,4 +75,4 @@ const activateFilter = () => {
 
 inactivateFilter();
 
-export {filteringFilters, setFiltersChange, activateFilter};
+export {filteringFilters, setFiltersChange, activateFilter, resetFilters, resetButtonsFilters};

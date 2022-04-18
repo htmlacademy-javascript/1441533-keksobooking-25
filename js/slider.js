@@ -32,3 +32,10 @@ sliderElement.noUiSlider.on('update', () => {
 sliderType.addEventListener('change', () => {
   sliderElement.noUiSlider.set(sliderPrice.placeholder);
 });
+
+const resetSlider = () => {
+  sliderPrice.value = sliderElement.noUiSlider.get();
+  sliderElement.noUiSlider.set(1000);
+};
+
+export {resetSlider};
