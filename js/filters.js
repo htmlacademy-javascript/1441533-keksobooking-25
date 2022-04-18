@@ -7,7 +7,6 @@ const filterFormTypes = filterForm.querySelector('#housing-type');
 const filtersFormPrices = filterForm.querySelector('#housing-price');
 const filtersFormRooms = filterForm.querySelector('#housing-rooms');
 const filtersFormGuests = filterForm.querySelector('#housing-guests');
-const submitButton = document.querySelector('.ad-form__submit');
 
 
 const PriceMoney = {
@@ -54,7 +53,6 @@ const setFiltersChange = (cb) => {
 
 const resetButtonsFilters = (cb) => {
   buttonReset.addEventListener('click', cb);
-  submitButton.addEventListener('submit', cb);
 };
 
 
