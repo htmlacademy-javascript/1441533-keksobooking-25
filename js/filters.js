@@ -1,10 +1,5 @@
 import {buttonReset} from './form.js';
 
-const PriceMoney = {
-  MAX: 50000,
-  MIN: 10000,
-};
-
 const DEFAULT_VALUE = 'any';
 
 const PRICE_MEANING = {
@@ -13,6 +8,12 @@ const PRICE_MEANING = {
   low: 'low',
   high: 'high',
 };
+
+const PriceMoney = {
+  MAX: 50000,
+  MIN: 10000,
+};
+
 
 const filterForm = document.querySelector('.map__filters');
 const selectsFilter = filterForm.querySelectorAll('select');

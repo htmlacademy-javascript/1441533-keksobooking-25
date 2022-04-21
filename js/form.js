@@ -69,10 +69,12 @@ const pristine = new Pristine(form, {
 
 const selectChangeArrive = () => {
   checkInTime.value = departureTime.value;
+  return true;
 };
 
 const selectChangeExit = () => {
   departureTime.value = checkInTime.value;
+  return true;
 };
 
 const getPriceValidation = () => price.value >= PRICE_HOUSING[type.value];
@@ -80,6 +82,7 @@ const getPriceValidation = () => price.value >= PRICE_HOUSING[type.value];
 const selectChangeType = () => {
   price.placeholder = PRICE_HOUSING[type.value];
   price.min = PRICE_HOUSING[type.value];
+  return true;
 };
 
 const getErrorPrice = () => `минимальная стоимость ${PRICE_HOUSING[type.value]}`;
@@ -127,7 +130,7 @@ const setUserFormSubmit = (onSuccess) => {
     evt.preventDefault();
 
     const isValid = pristine.validate();
-    if (!isValid) {
+    if (isValid) {
       sendData(
         () => {
           showMessageAboutSending();

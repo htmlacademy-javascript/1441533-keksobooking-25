@@ -61,13 +61,16 @@ map.on('load', () => {
     pinsOffers = [];
   };
 
-  const loadingBluePin = (element) => {
-    if(!element){
+  const loadingBluePin = (offers) => {
+    if(!offers){
       return;
     }
-    element
-      .slice(0, OFFER_LIMITED)
-      .forEach((card) => {
+    let i = 0;
+    let j = 0;
+    const offersLength = offers.length;
+    while (j < OFFER_LIMITED && i < offersLength) {
+      const card = offers[i];
+      if (filteringFilters(card)) {
         const marker = L.marker({
           lat: card.location.lat,
           lng: card.location.lng
@@ -81,19 +84,18 @@ map.on('load', () => {
           .addTo(map)
           .bindPopup(generateCard(card));
         pinsOffers.push(marker);
-      });
+        j++;
+      }
+      i++;
+    }
   };
-
-
   getData((offers) => {
     activateForm();
     activateFilter();
     loadingBluePin(offers);
     setFiltersChange(debounce( () => {
       removeMarkers(offers);
-      loadingBluePin(offers.forEach((element) => {
-        loadingBluePin(element);
-      }));
+      loadingBluePin(offers);
     }, RERENDER_DELAY));
     resetButtonsFilters(() => loadingBluePin(offers, removeMarkers(offers)));
   }, showAlertError);
