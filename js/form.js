@@ -126,17 +126,19 @@ const setUserFormSubmit = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
-    pristine.validate();
-    sendData(
-      () => {
-        showMessageAboutSending();
-        onSuccess();
-      },
-      () => {
-        showErrorMessage();
-      },
-      new FormData(evt.target),
-    );
+    const isValid = pristine.validate();
+    if (!isValid) {
+      sendData(
+        () => {
+          showMessageAboutSending();
+          onSuccess();
+        },
+        () => {
+          showErrorMessage();
+        },
+        new FormData(evt.target),
+      );
+    }
   });
 };
 

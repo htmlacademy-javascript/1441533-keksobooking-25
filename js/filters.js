@@ -5,7 +5,7 @@ const PriceMoney = {
   MIN: 10000,
 };
 
-const DEFOLT_VALUE = 'any';
+const DEFAULT_VALUE = 'any';
 
 const PRICE_MEANING = {
   any: 'any',
@@ -28,9 +28,9 @@ const resetFilters = () => {
 };
 
 
-const filterType = (type) => filterFormTypes.value === DEFOLT_VALUE || filterFormTypes.value === type;
-const filterRoom = (rooms) => filtersFormRooms.value === DEFOLT_VALUE || +filtersFormRooms.value === rooms;
-const filterGuest = (guests) => filtersFormGuests.value === DEFOLT_VALUE || +filtersFormGuests.value === guests;
+const filterType = (type) => filterFormTypes.value === DEFAULT_VALUE || filterFormTypes.value === type;
+const filterRoom = (rooms) => filtersFormRooms.value === DEFAULT_VALUE || +filtersFormRooms.value === rooms;
+const filterGuest = (guests) => filtersFormGuests.value === DEFAULT_VALUE || +filtersFormGuests.value === guests;
 const filterPrices = (price) => {
   if (filtersFormPrices.value === PRICE_MEANING.any) {
     return price;
