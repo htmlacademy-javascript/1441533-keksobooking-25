@@ -5,6 +5,21 @@ import {avatar, photos} from './photos.js';
 import {resetFilters} from './filters.js';
 import {resetSlider} from './slider.js';
 
+const PRICE_HOUSING = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
+
+const roomsOption = {
+  '1' : ['1'],
+  '2' : ['1', '2'],
+  '3' : ['1', '2', '3'],
+  '100' : ['0'],
+};
+
 const form = document.querySelector('.ad-form');
 const rooms = form.querySelector('#room_number');
 const copacity = form.querySelector('#capacity');
@@ -17,6 +32,7 @@ const adForm = document.querySelector('.ad-form');
 const fieldsets = adForm.children;
 const mapFilters = document.querySelector('.map__filters');
 const selects = mapFilters.children;
+
 
 const inactivateForm = () => {
   adForm.classList.add('ad-form--disabled');
@@ -44,22 +60,6 @@ const activateForm = () => {
 };
 
 
-const PRICE_HOUSING = {
-  bungalow: 0,
-  flat: 1000,
-  hotel: 3000,
-  house: 5000,
-  palace: 10000,
-};
-
-const roomsOption = {
-  '1' : ['1'],
-  '2' : ['1', '2'],
-  '3' : ['1', '2', '3'],
-  '100' : ['0'],
-};
-
-
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
@@ -69,10 +69,12 @@ const pristine = new Pristine(form, {
 
 const selectChangeArrive = () => {
   checkInTime.value = departureTime.value;
+  return true;
 };
 
 const selectChangeExit = () => {
   departureTime.value = checkInTime.value;
+  return true;
 };
 
 const getPriceValidation = () => price.value >= PRICE_HOUSING[type.value];
@@ -80,6 +82,7 @@ const getPriceValidation = () => price.value >= PRICE_HOUSING[type.value];
 const selectChangeType = () => {
   price.placeholder = PRICE_HOUSING[type.value];
   price.min = PRICE_HOUSING[type.value];
+  return true;
 };
 
 const getErrorPrice = () => `минимальная стоимость ${PRICE_HOUSING[type.value]}`;
@@ -121,7 +124,7 @@ buttonReset.addEventListener('click', (evt) => {
   resetAllForm();
 });
 
-// вот тут какая-то проблема, форма не отправляется
+
 const setUserFormSubmit = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();

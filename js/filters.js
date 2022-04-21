@@ -1,5 +1,20 @@
 import {buttonReset} from './form.js';
 
+const DEFAULT_VALUE = 'any';
+
+const PRICE_MEANING = {
+  any: 'any',
+  middle: 'middle',
+  low: 'low',
+  high: 'high',
+};
+
+const PriceMoney = {
+  MAX: 50000,
+  MIN: 10000,
+};
+
+
 const filterForm = document.querySelector('.map__filters');
 const selectsFilter = filterForm.querySelectorAll('select');
 const filterFormFeatures = filterForm.querySelector('#housing-features');
@@ -9,30 +24,25 @@ const filtersFormRooms = filterForm.querySelector('#housing-rooms');
 const filtersFormGuests = filterForm.querySelector('#housing-guests');
 
 
-const PriceMoney = {
-  MAX: 50000,
-  MIN: 10000,
-};
-
 const resetFilters = () => {
   filterForm.reset();
 };
 
 
-const filterType = (type) => filterFormTypes.value === 'any' || filterFormTypes.value === type;
-const filterRoom = (rooms) => filtersFormRooms.value === 'any' || +filtersFormRooms.value === rooms;
-const filterGuest = (guests) => filtersFormGuests.value === 'any' || +filtersFormGuests.value === guests;
+const filterType = (type) => filterFormTypes.value === DEFAULT_VALUE || filterFormTypes.value === type;
+const filterRoom = (rooms) => filtersFormRooms.value === DEFAULT_VALUE || +filtersFormRooms.value === rooms;
+const filterGuest = (guests) => filtersFormGuests.value === DEFAULT_VALUE || +filtersFormGuests.value === guests;
 const filterPrices = (price) => {
-  if (filtersFormPrices.value === 'any') {
+  if (filtersFormPrices.value === PRICE_MEANING.any) {
     return price;
   }
-  else if (filtersFormPrices.value === 'middle') {
+  else if (filtersFormPrices.value === PRICE_MEANING.middle) {
     return price >= PriceMoney.MIN && price <= PriceMoney.MAX;
   }
-  else if (filtersFormPrices.value === 'low') {
+  else if (filtersFormPrices.value === PRICE_MEANING.low) {
     return price <= PriceMoney.MIN;
   }
-  else if (filtersFormPrices.value === 'high') {
+  else if (filtersFormPrices.value === PRICE_MEANING.high) {
     return price >= PriceMoney.MAX;
   }
 };

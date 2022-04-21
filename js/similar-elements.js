@@ -1,6 +1,3 @@
-const card = document.querySelector('#card').content.querySelector('.popup');
-
-
 const HOUSE_TYPE = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -8,6 +5,9 @@ const HOUSE_TYPE = {
   palace: 'Дворец ',
   hotel: 'Отель',
 };
+
+const card = document.querySelector('#card').content.querySelector('.popup');
+
 
 const generateCard = ({author, offer}) => {
   const cardComponent = card.cloneNode(true);
@@ -41,22 +41,20 @@ const generateCard = ({author, offer}) => {
 
   featuresList.innerHTML = '';
   if (offer.features) {
-    for (let i = 0; i < offer.features.length; i++) {
-      const features = offer.features[i];
-      const featureElement = `<li class="popup__feature popup__feature--${features}"></li>`;
+    offer.features.forEach((item) => {
+      const featureElement = `<li class="popup__feature popup__feature--${item}"></li>`;
       featuresList.insertAdjacentHTML('afterbegin', featureElement);
-    }
+    });
   } else {
     featuresList.remove();
   }
 
   photoList.innerHTML = '';
   if (offer.photos)  {
-    for (let i = 0; i < offer.photos.length; i++) {
-      const photos = offer.photos[i];
-      const photosElement = `<img src="${photos}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
+    offer.photos.forEach((item) => {
+      const photosElement = `<img src="${item}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
       photoList.insertAdjacentHTML('afterbegin', photosElement);
-    }
+    });
   } else {
     photoList.remove();
   }

@@ -6,14 +6,17 @@ import {debounce} from './util.js';
 import { showAlertError } from './util.js';
 
 
-const address = document.querySelector('#address');
-
-const Coordinates = {
-  lat: 35.68951,
-  lng: 139.69171,
-};
 const OFFER_LIMITED = 10;
 const RERENDER_DELAY = 500;
+const ZOOM_MAP = 12;
+
+const Coordinates = {
+  LAT: 35.68951,
+  LNG: 139.69171,
+};
+
+const address = document.querySelector('#address');
+
 
 const setAddress = (x, y) => {
   address.value = `${x}, ${y}`;
@@ -29,8 +32,8 @@ const mainPinIcon = L.icon({
 
 const mainPinMarker = L.marker(
   {
-    lat: Coordinates.lat,
-    lng: Coordinates.lng,
+    lat: Coordinates.LAT,
+    lng: Coordinates.LNG,
   },
   {
     draggable: true,
@@ -58,14 +61,16 @@ map.on('load', () => {
     pinsOffers = [];
   };
 
-  const loadingBluePin = (element) => {
-    if(!element){
+  const loadingBluePin = (offers) => {
+    if(!offers){
       return;
     }
-
-    element
-      .slice(0, OFFER_LIMITED)
-      .forEach((card) => {
+    let i = 0;
+    let j = 0;
+    const offersLength = offers.length;
+    while (j < OFFER_LIMITED && i < offersLength) {
+      const card = offers[i];
+      if (filteringFilters(card)) {
         const marker = L.marker({
           lat: card.location.lat,
           lng: card.location.lng
@@ -79,21 +84,27 @@ map.on('load', () => {
           .addTo(map)
           .bindPopup(generateCard(card));
         pinsOffers.push(marker);
-      });
+        j++;
+      }
+      i++;
+    }
   };
   getData((offers) => {
     activateForm();
     activateFilter();
     loadingBluePin(offers);
-    setFiltersChange(debounce( () => {removeMarkers(offers); loadingBluePin(offers.filter(filteringFilters));}, RERENDER_DELAY));
+    setFiltersChange(debounce( () => {
+      removeMarkers(offers);
+      loadingBluePin(offers);
+    }, RERENDER_DELAY));
     resetButtonsFilters(() => loadingBluePin(offers, removeMarkers(offers)));
   }, showAlertError);
   setMainPinAddress();
 })
   .setView({
-    lat: Coordinates.lat,
-    lng: Coordinates.lng,
-  }, 12);
+    lat: Coordinates.LAT,
+    lng: Coordinates.LNG,
+  }, ZOOM_MAP);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -112,15 +123,15 @@ mainPinMarker.on('move', () => {
 
 const resetMap = () => {
   mainPinMarker.setLatLng({
-    lat: Coordinates.lat,
-    lng: Coordinates.lng,
+    lat: Coordinates.LAT,
+    lng: Coordinates.LNG,
   });
 
 
   map.setView({
-    lat: Coordinates.lat,
-    lng: Coordinates.lng,
-  }, 12);
+    lat: Coordinates.LAT,
+    lng: Coordinates.LNG,
+  }, ZOOM_MAP);
 
   setMainPinAddress();
 };
