@@ -6,14 +6,17 @@ import {debounce} from './util.js';
 import { showAlertError } from './util.js';
 
 
-const address = document.querySelector('#address');
-
-const Coordinates = {
-  lat: 35.68951,
-  lng: 139.69171,
-};
 const OFFER_LIMITED = 10;
 const RERENDER_DELAY = 500;
+const ZOOM_MAP = 12;
+
+const Coordinates = {
+  LAT: 35.68951,
+  LNG: 139.69171,
+};
+
+const address = document.querySelector('#address');
+
 
 const setAddress = (x, y) => {
   address.value = `${x}, ${y}`;
@@ -29,8 +32,8 @@ const mainPinIcon = L.icon({
 
 const mainPinMarker = L.marker(
   {
-    lat: Coordinates.lat,
-    lng: Coordinates.lng,
+    lat: Coordinates.LAT,
+    lng: Coordinates.LNG,
   },
   {
     draggable: true,
@@ -62,9 +65,7 @@ map.on('load', () => {
     if(!element){
       return;
     }
-
     element
-      .slice(0, OFFER_LIMITED)
       .forEach((card) => {
         const marker = L.marker({
           lat: card.location.lat,
@@ -82,18 +83,19 @@ map.on('load', () => {
       });
   };
   getData((offers) => {
+    const offer = offers.slice(0, OFFER_LIMITED);
     activateForm();
     activateFilter();
-    loadingBluePin(offers);
-    setFiltersChange(debounce( () => {removeMarkers(offers); loadingBluePin(offers.filter(filteringFilters));}, RERENDER_DELAY));
-    resetButtonsFilters(() => loadingBluePin(offers, removeMarkers(offers)));
+    loadingBluePin(offer);
+    setFiltersChange(debounce( () => {removeMarkers(offer); loadingBluePin(offer.filter(filteringFilters));}, RERENDER_DELAY));
+    resetButtonsFilters(() => loadingBluePin(offer, removeMarkers(offer)));
   }, showAlertError);
   setMainPinAddress();
 })
   .setView({
-    lat: Coordinates.lat,
-    lng: Coordinates.lng,
-  }, 12);
+    lat: Coordinates.LAT,
+    lng: Coordinates.LNG,
+  }, ZOOM_MAP);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -112,15 +114,15 @@ mainPinMarker.on('move', () => {
 
 const resetMap = () => {
   mainPinMarker.setLatLng({
-    lat: Coordinates.lat,
-    lng: Coordinates.lng,
+    lat: Coordinates.LAT,
+    lng: Coordinates.LNG,
   });
 
 
   map.setView({
-    lat: Coordinates.lat,
-    lng: Coordinates.lng,
-  }, 12);
+    lat: Coordinates.LAT,
+    lng: Coordinates.LNG,
+  }, ZOOM_MAP);
 
   setMainPinAddress();
 };

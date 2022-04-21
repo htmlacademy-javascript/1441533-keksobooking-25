@@ -5,6 +5,21 @@ import {avatar, photos} from './photos.js';
 import {resetFilters} from './filters.js';
 import {resetSlider} from './slider.js';
 
+const PRICE_HOUSING = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
+
+const roomsOption = {
+  '1' : ['1'],
+  '2' : ['1', '2'],
+  '3' : ['1', '2', '3'],
+  '100' : ['0'],
+};
+
 const form = document.querySelector('.ad-form');
 const rooms = form.querySelector('#room_number');
 const copacity = form.querySelector('#capacity');
@@ -17,6 +32,7 @@ const adForm = document.querySelector('.ad-form');
 const fieldsets = adForm.children;
 const mapFilters = document.querySelector('.map__filters');
 const selects = mapFilters.children;
+
 
 const inactivateForm = () => {
   adForm.classList.add('ad-form--disabled');
@@ -41,22 +57,6 @@ const activateForm = () => {
   for (let select = 0; select < selects.length; select++ ){
     selects[select].disabled = false;
   }
-};
-
-
-const PRICE_HOUSING = {
-  bungalow: 0,
-  flat: 1000,
-  hotel: 3000,
-  house: 5000,
-  palace: 10000,
-};
-
-const roomsOption = {
-  '1' : ['1'],
-  '2' : ['1', '2'],
-  '3' : ['1', '2', '3'],
-  '100' : ['0'],
 };
 
 
@@ -121,24 +121,22 @@ buttonReset.addEventListener('click', (evt) => {
   resetAllForm();
 });
 
-// вот тут какая-то проблема, форма не отправляется
+
 const setUserFormSubmit = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
-    const isValid = pristine.validate();
-    if (isValid) {
-      sendData(
-        () => {
-          showMessageAboutSending();
-          onSuccess();
-        },
-        () => {
-          showErrorMessage();
-        },
-        new FormData(evt.target),
-      );
-    }
+    pristine.validate();
+    sendData(
+      () => {
+        showMessageAboutSending();
+        onSuccess();
+      },
+      () => {
+        showErrorMessage();
+      },
+      new FormData(evt.target),
+    );
   });
 };
 

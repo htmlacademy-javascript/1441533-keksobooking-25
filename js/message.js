@@ -15,25 +15,25 @@ const showMessageAboutSending = () => {
 };
 
 
-const closeErrorMessage = () => {
+const onErrorMessageClose = () => {
   if (main.contains(contentError)) {
     main.removeChild(contentError);
   }
 };
 
 
-const closeSuccessMessage = () => {
+const onSuccessMessageClose = () => {
   if (main.contains(contentSuccess)) {
     main.removeChild(contentSuccess);
   }
 };
 
 
-const buttonErrorHandler = () => closeErrorMessage();
+const buttonErrorHandler = () => onErrorMessageClose();
 
 const buttonSuccessHandler = (evt) => {
   if ((evt.key === 'Escape' || evt.key === 'Esc')) {
-    closeSuccessMessage();
+    onSuccessMessageClose();
   }
 };
 
@@ -41,8 +41,8 @@ main.addEventListener('keydown', buttonErrorHandler);
 main.addEventListener('keydown', buttonSuccessHandler);
 
 
-main.addEventListener('click', closeErrorMessage);
-main.addEventListener('click', closeSuccessMessage);
+main.addEventListener('click', onErrorMessageClose);
+main.addEventListener('click', onSuccessMessageClose);
 
 
 export {showErrorMessage, showMessageAboutSending};

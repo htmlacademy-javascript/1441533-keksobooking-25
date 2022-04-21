@@ -1,5 +1,10 @@
 import {buttonReset} from './form.js';
 
+const PriceMoney = {
+  MAX: 50000,
+  MIN: 10000,
+};
+
 const filterForm = document.querySelector('.map__filters');
 const selectsFilter = filterForm.querySelectorAll('select');
 const filterFormFeatures = filterForm.querySelector('#housing-features');
@@ -8,11 +13,6 @@ const filtersFormPrices = filterForm.querySelector('#housing-price');
 const filtersFormRooms = filterForm.querySelector('#housing-rooms');
 const filtersFormGuests = filterForm.querySelector('#housing-guests');
 
-
-const PriceMoney = {
-  MAX: 50000,
-  MIN: 10000,
-};
 
 const resetFilters = () => {
   filterForm.reset();
